@@ -66,16 +66,21 @@ func main() {
 		}
 	}
 
+	fmt.Println("Number, Title, Milestone, Labels")
 	for _, issue := range allIssues {
+		// Put titles in quotes, escaping double quote characters.
+		title := fmt.Sprintf("%q", strings.Replace(issue.GetTitle(), "\"", "\"\"", -1))
+
 		milestone := ""
 		if issue.Milestone != nil {
-			milestone = issue.Milestone.GetTitle()
+			// Avoid "0.10" being interpreted as float 0.1.
+			milestone = "M" + issue.Milestone.GetTitle()
 		}
 		labels := ""
 		for _, label := range issue.Labels {
 			labels = label.GetName() + ";" + labels
 		}
-		fmt.Printf("%d,%s,%s,%v\n", issue.GetNumber(), issue.GetTitle(), milestone, labels)
+		fmt.Printf("%d,%s,%s,%v\n", issue.GetNumber(), title, milestone, labels)
 	}
 
 	os.Exit(0)

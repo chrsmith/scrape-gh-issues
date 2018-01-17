@@ -68,6 +68,11 @@ func main() {
 
 	fmt.Println("Number, Title, Milestone, Labels")
 	for _, issue := range allIssues {
+		// Filter out pull requests.
+		if issue.PullRequestLinks != nil {
+			continue
+		}
+
 		// Put titles in quotes, escaping double quote characters.
 		title := fmt.Sprintf("%q", strings.Replace(issue.GetTitle(), "\"", "\"\"", -1))
 
